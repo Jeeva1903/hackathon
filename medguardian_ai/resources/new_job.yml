@@ -1,9 +1,8 @@
 # A sample job for medguardian_ai.
-
 resources:
   jobs:
-    sample_job:
-      name: sample_job
+    New_Job_2026_10_20_16_01_05:
+      name: New Job 2026-10-20 16:01:05
 
       trigger:
         # Run this job every day, exactly one day from the last run; see https://docs.databricks.com/api/workspace/jobs/create#trigger
@@ -32,11 +31,11 @@ resources:
               - "--schema"
               - "${var.schema}"
           environment_key: default
-        - task_key: refresh_pipeline
-          depends_on:
-            - task_key: python_wheel_task
+        - task_key: pipeline_job
           pipeline_task:
-            pipeline_id: ${resources.pipelines.medguardian_ai_etl.id}
+            pipeline_id: c0bea210-dd8e-4992-be6c-a7b3b434b4e4
+          max_retries: 2
+          min_retry_interval_millis: 600000
 
       environments:
         - environment_key: default

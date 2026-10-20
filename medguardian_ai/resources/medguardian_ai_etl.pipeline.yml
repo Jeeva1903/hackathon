@@ -2,19 +2,20 @@
 
 resources:
   pipelines:
-    medguardian_ai_etl:
-      name: medguardian_ai_etl
-      catalog: ${var.catalog}
-      schema: ${var.schema}
-      serverless: true
-      root_path: "../src/medguardian_ai_etl"
-
+    pipeline_etl_pipeline_team1:
+      name: ETL Pipeline Team1
       libraries:
         - glob:
-            include: ../src/medguardian_ai_etl/transformations/**
+            include: ../src/medguardian_ai_etl/transformations/bronze/**
+        - glob:
+            include: ../src/medguardian_ai_etl/transformations/silver/**
+        - glob:
+            include: ../src/medguardian_ai_etl/transformations/gold/**
+      schema: dev_bronze
+      continuous: false
+      development: false
+      channel: CURRENT
+      catalog: ey_dbx_emea_hackathon_team1
+      serverless: true
+      root_path: /Workspace/Users/jeevan.prabhakaran.gunasekaran@de.ey.com/ETL Pipeline
 
-      environment:
-        dependencies:
-          # We include every dependency defined by pyproject.toml by defining an editable environment
-          # that points to the folder where pyproject.toml is deployed.
-          - --editable ${workspace.file_path}
