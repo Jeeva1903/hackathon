@@ -1,0 +1,20 @@
+# The main pipeline for medguardian_ai
+
+resources:
+  pipelines:
+    medguardian_ai_etl:
+      name: medguardian_ai_etl
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      root_path: "../src/medguardian_ai_etl"
+
+      libraries:
+        - glob:
+            include: ../src/medguardian_ai_etl/transformations/**
+
+      environment:
+        dependencies:
+          # We include every dependency defined by pyproject.toml by defining an editable environment
+          # that points to the folder where pyproject.toml is deployed.
+          - --editable ${workspace.file_path}
