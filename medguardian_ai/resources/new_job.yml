@@ -4,45 +4,16 @@ resources:
     New_Job_2026_10_20_16_01_05:
       name: New Job 2026-10-20 16:01:05
 
-      trigger:
-        # Run this job every day, exactly one day from the last run; see https://docs.databricks.com/api/workspace/jobs/create#trigger
-        periodic:
-          interval: 1
-          unit: DAYS
 
       #email_notifications:
       #  on_failure:
       #    - your_email@example.com
 
-      parameters:
-        - name: catalog
-          default: ${var.catalog}
-        - name: schema
-          default: ${var.schema}
-
       tasks:
-        - task_key: python_wheel_task
-          python_wheel_task:
-            package_name: medguardian_ai
-            entry_point: main
-            parameters:
-              - "--catalog"
-              - "${var.catalog}"
-              - "--schema"
-              - "${var.schema}"
-          environment_key: default
         - task_key: pipeline_job
           pipeline_task:
             pipeline_id: c0bea210-dd8e-4992-be6c-a7b3b434b4e4
           max_retries: 2
           min_retry_interval_millis: 600000
 
-      environments:
-        - environment_key: default
-          spec:
-            environment_version: "5"
-            dependencies:
-              # By default we just include the .whl file generated for the medguardian_ai package.
-              # See https://docs.databricks.com/dev-tools/bundles/library-dependencies.html
-              # for more information on how to add other libraries.
-              - ../dist/*.whl
+     
